@@ -1,0 +1,127 @@
+[
+  [
+    "# Hello **world**",
+    100,
+    "Hello world"
+  ],
+  [
+    "[guide](https://example.invalid/a) and ![diagram](a.png)",
+    100,
+    "guide and diagram"
+  ],
+  [
+    "<b>Hello</b><i>world</i>",
+    100,
+    "Hello world"
+  ],
+  [
+    "before<script>alert(\"synthetic\")</script>after",
+    100,
+    "before after"
+  ],
+  [
+    "a<STYLE>body{display:none}</STYLE>b",
+    100,
+    "a b"
+  ],
+  [
+    "<!-- hidden -->shown<!-- unfinished",
+    100,
+    "shown"
+  ],
+  [
+    "```js\nconst x = 1;\n```",
+    100,
+    "const x = 1;"
+  ],
+  [
+    "> quoted\n- one\n2. two",
+    100,
+    "quoted one two"
+  ],
+  [
+    "a\t b\n\n c",
+    100,
+    "a b c"
+  ],
+  [
+    "a &amp; b &lt;b&gt; &quot;ok&quot; &#x1f600; &#65; &nbsp;",
+    100,
+    "a & b <b> \"ok\" 😀 A"
+  ],
+  [
+    "&#0; &#xD800; &#1114112; &unknown;",
+    100,
+    "� � � &unknown;"
+  ],
+  [
+    "**abcdef**",
+    4,
+    "abc…"
+  ],
+  [
+    "😀😃😄",
+    2,
+    "😀…"
+  ],
+  [
+    "a😀b",
+    3,
+    "a😀b"
+  ],
+  [
+    "a😀b",
+    2,
+    "a…"
+  ],
+  [
+    "abc",
+    1,
+    "…"
+  ],
+  [
+    "abc",
+    0,
+    ""
+  ],
+  [
+    "",
+    0,
+    ""
+  ],
+  [
+    "abc",
+    3,
+    "abc"
+  ],
+  [
+    "before<script src=x>hidden",
+    100,
+    "before"
+  ],
+  [
+    "[label](url \"title\")",
+    100,
+    "label"
+  ],
+  [
+    "snake_case ~~strike~~ `code`",
+    100,
+    "snakecase strike code"
+  ],
+  [
+    "<img src=x onerror=\"synthetic()\">hello",
+    100,
+    "hello"
+  ],
+  [
+    "A\\! B",
+    100,
+    "A! B"
+  ],
+  [
+    "x &lt;script&gt;z&lt;/script&gt;",
+    100,
+    "x <script>z</script>"
+  ]
+]

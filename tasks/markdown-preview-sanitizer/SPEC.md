@@ -1,0 +1,13 @@
+# Plain-text markdown preview
+
+Implement named export `previewText(markdown, maxChars)`. Require a string and nonnegative safe-integer maxChars; otherwise throw TypeError. This is a deliberately small deterministic Markdown subset, not CommonMark and not an HTML sanitizer for browser insertion. Render returned strings with textContent (or equivalent), never innerHTML. Encoded angle brackets may appear in the result.
+
+Apply these steps in order:
+1. Replace HTML comments through --> (or end of input) with a space. Replace case-insensitive script/style opening blocks and all content through the matching closing tag (or end) with a space. Opening tags use a word boundary after script/style. Replace every remaining `<[^>]*>` tag with a space. This simple tag grammar does not parse quoted `>` attributes.
+2. Remove complete fence marker lines with up to three leading spaces, at least three backticks or tildes and arbitrary remaining text. Keep fenced content.
+3. Replace inline `[text](destination)` and `![alt](destination)` with text/alt. Labels contain no closing bracket/newline. Destinations contain no whitespace or closing parenthesis; optional space/tab plus double-quoted title is allowed. Nested parentheses, reference links and nested formatting are outside this subset.
+4. Unescape backslash before any of `\` backtick `* _ { } [ ] ( ) # + . ! > ~ -`. Remove one leading heading (1–6 # plus whitespace), blockquote (> plus optional whitespace), unordered list (-/+/* plus whitespace), or numbered list (digits plus . or ) plus whitespace) marker per line, allowing up to three leading spaces. Remove every remaining asterisk, underscore, tilde and backtick globally (including inside code and escaped emphasis).
+5. Decode amp, lt, gt, quot, apos, nbsp entities (case-insensitive) and decimal/hex numeric entities ending in semicolons, once. Invalid numeric scalar values, zero and surrogates become U+FFFD; unknown entities stay literal. Collapse JavaScript whitespace to one space and trim.
+6. maxChars counts Unicode code points, including a final U+2026 ellipsis. If longer than the limit, return the first maxChars-1 code points plus …; limit 0 returns empty. Never split a surrogate pair. Exact fits receive no ellipsis. Combining sequences may be split; grapheme handling is outside scope.
+
+All hostile examples are synthetic. Node 22 standard library only, one self-contained `markdown_preview_sanitizer.mjs` with JSDoc types. No network, files, processes or fixture access. Change only implementation and optional IMPLEMENTATION.md. Run `node tasks/markdown-preview-sanitizer/check.mjs --solution "$PWD/tasks/markdown-preview-sanitizer/markdown_preview_sanitizer.mjs"`; acceptance uses pinned trusted checks and source/scope review.

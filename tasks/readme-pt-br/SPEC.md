@@ -1,0 +1,9 @@
+# Translate the contributor README into Brazilian Portuguese
+
+Add root `README.pt-BR.md`, translating the complete English README. The task-directory TODO is not a root translation and intentionally fails. The candidate English README must stay byte-identical to fixtures/README.en.md (SHA-256 `514918984d07586af16112e1beeaab3e6cc8a2c4d33b3a1c554ea21fa955a8af`). Only add the root translation and optional task IMPLEMENTATION.md; no English edits or navigation additions.
+
+Preserve every link target within its original block, all inline code snippets and fenced code byte-for-byte, heading count/levels/order, paragraph/list/table-row order, table delimiters, outer pipes and column counts. Do not omit caveats or add blocks. Paragraph line wrapping may change. Translate link labels but retain technical identifiers and the project name. Use the baseline's simple Markdown: no raw HTML, comments, reference links, added links, indented prose/code or separated table rows.
+
+Node 22 and its standard library only; no installs or network. This check follows the data-tasks README translation design: pinned English baseline, structural coverage, links/code per block, copied-English/filler rejection and lightweight Portuguese function-word/script plausibility. Synthetic structure-sample.md exercises parser forms. A pass does not establish accurate meaning or naturalness. Human or LLM review before merge must verify complete coverage, unpaid/credit terms, AI disclosure, optional registration, and check limitations. No member data is used.
+
+Run `node tasks/readme-pt-br/check.mjs --solution "$PWD"`. Acceptance uses a separate trusted pinned checker and a candidate repository root containing English plus Portuguese README files. This task is a Markdown translation; the other tasks each implement one .mjs file.
