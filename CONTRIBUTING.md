@@ -2,7 +2,7 @@
 
 1. Read the issue and SPEC.md; check existing claims and comment `/claim`.
 2. Implement the indicated single `.mjs` file using Node 22 standard library only, with JSDoc types. Use no network, credentials, external processes or fixture lookups. Translation contributors add root `README.pt-BR.md` instead.
-3. Run the issue's command with a separate clean trusted checker checkout pinned to its full commit. Set `CHECK_REPO` to that checkout and `SOLUTION_REPO` to your branch. Before publication, clone locally with `git clone --no-hardlinks /path/to/local/source /path/to/checks`, then `git -C /path/to/checks checkout <full commit from issue>`. After publication you may clone the published repository instead. The GitHub repo does not yet exist during local preparation.
+3. Run the issue's command with a separate clean trusted checker checkout pinned to its full commit. Set `CHECK_REPO` to that checkout and `SOLUTION_REPO` to your branch. Clone with `git clone https://github.com/andrewsiah/agentswarm-web-tasks.git /path/to/checks`, then `git -C /path/to/checks checkout <full commit from issue>`.
 4. Open a linked PR with the check output, your approach and AI assistance disclosure. Only the implementation file and optional task `IMPLEMENTATION.md` may change. Do not edit the English README for the translation task.
 
 Before offline acceptance, preload the immutable Node 22 image with `docker pull node:22-slim@sha256:5ec23b7c622b00547753bc6ffd78085dd868a68aeb41c8e0a1418f033e13d96d` while online. The issue uses `--pull=never --network none` to prevent fetching during acceptance. The checker and candidate directories must be readable by your current UID inside the container; both mounts are read-only.
