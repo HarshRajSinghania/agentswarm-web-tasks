@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {join} from 'node:path';
+import {createHash} from 'node:crypto';
+import {parse,targets,checkTranslation} from './translation.mjs';
+const baseline=readFileSync(new URL('./fixtures/README.en.md',import.meta.url));
+assert.equal(createHash('sha256').update(baseline).digest('hex'),'514918984d07586af16112e1beeaab3e6cc8a2c4d33b3a1c554ea21fa955a8af');
+const sample=readFileSync(new URL('./fixtures/structure-sample.md',import.meta.url),'utf8');
+const shape=parse(sample);
+assert.deepEqual(shape.headings,[1,2]);assert.equal(shape.fences.length,1);
+assert.deepEqual(shape.blocks.map(r=>r[0]),['heading','paragraph','heading','fence','table','table-separator','table','list','quote']);
+assert.deepEqual(targets(sample),['https://example.invalid/guide']);
+assert.deepEqual(readFileSync(join(process.argv[2],'README.md')),baseline,'English README must remain unchanged');
+checkTranslation(baseline.toString('utf8'),readFileSync(join(process.argv[2],'README.zh-CN.md'),'utf8'));
+console.log('PASS readme-zh-cn: pinned English, ordered structure/coverage, links/code and Simplified Chinese plausibility; meaning needs human/LLM review');

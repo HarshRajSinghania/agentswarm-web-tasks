@@ -1,0 +1,524 @@
+[
+  {
+    "name": "empty",
+    "pages": [],
+    "expected": []
+  },
+  {
+    "name": "empty-pages",
+    "pages": [
+      {
+        "posts": [],
+        "nextCursor": "synthetic-cursor"
+      },
+      {
+        "posts": [],
+        "nextCursor": null
+      }
+    ],
+    "expected": []
+  },
+  {
+    "name": "opaque-fields",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z",
+            "title": "Authored sample",
+            "nested": {
+              "labels": [
+                "data"
+              ],
+              "ok": true
+            }
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "a",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z",
+        "title": "Authored sample",
+        "nested": {
+          "labels": [
+            "data"
+          ],
+          "ok": true
+        }
+      }
+    ]
+  },
+  {
+    "name": "newest-later",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T13:00:00Z",
+            "title": "old",
+            "removed": true
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      },
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T14:00:00Z",
+            "title": "new"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "a",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T14:00:00Z",
+        "title": "new"
+      }
+    ]
+  },
+  {
+    "name": "newest-earlier",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T14:00:00Z",
+            "title": "new"
+          },
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T13:00:00Z",
+            "title": "old",
+            "removed": true
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "a",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T14:00:00Z",
+        "title": "new"
+      }
+    ]
+  },
+  {
+    "name": "equal-instant-first",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T14:00:00Z",
+            "title": "new"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      },
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T15:00:00+01:00",
+            "title": "tie"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "a",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T14:00:00Z",
+        "title": "new"
+      }
+    ]
+  },
+  {
+    "name": "equal-instant-reversed",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T15:00:00+01:00",
+            "title": "tie"
+          },
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T14:00:00Z",
+            "title": "new"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "a",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T15:00:00+01:00",
+        "title": "tie"
+      }
+    ]
+  },
+  {
+    "name": "created-desc-not-input",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "c",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "a",
+            "createdAt": "2026-11-02T00:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      },
+      {
+        "posts": [
+          {
+            "id": "b",
+            "createdAt": "2026-11-03T00:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "b",
+        "createdAt": "2026-11-03T00:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "a",
+        "createdAt": "2026-11-02T00:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "c",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      }
+    ]
+  },
+  {
+    "name": "ascii-id-ties",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "z",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "A",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "10",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "2",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "10",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "2",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "A",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "a",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "z",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      }
+    ]
+  },
+  {
+    "name": "created-offset-order",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T13:00:00+02:00",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "b",
+            "createdAt": "2026-11-01T11:30:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "b",
+        "createdAt": "2026-11-01T11:30:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "a",
+        "createdAt": "2026-11-01T13:00:00+02:00",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      }
+    ]
+  },
+  {
+    "name": "updated-offset-order",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "x",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T13:00:00+02:00",
+            "title": "older"
+          },
+          {
+            "id": "x",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T11:30:00Z",
+            "title": "newer"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "x",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T11:30:00Z",
+        "title": "newer"
+      }
+    ]
+  },
+  {
+    "name": "milliseconds",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00.001Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "b",
+            "createdAt": "2026-11-01T12:00:00.002Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "b",
+        "createdAt": "2026-11-01T12:00:00.002Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "a",
+        "createdAt": "2026-11-01T12:00:00.001Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      }
+    ]
+  },
+  {
+    "name": "winner-created-controls-sort",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-10T00:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "b",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      },
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-10-01T00:00:00Z",
+            "updatedAt": "2026-11-12T00:00:00Z"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "b",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "a",
+        "createdAt": "2026-10-01T00:00:00Z",
+        "updatedAt": "2026-11-12T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "name": "opaque-case-sensitive-ids",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "a",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "constructor",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "__proto__",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          },
+          {
+            "id": "A",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          }
+        ],
+        "nextCursor": "synthetic-cursor"
+      }
+    ],
+    "expected": [
+      {
+        "id": "A",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "__proto__",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "a",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "constructor",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      }
+    ]
+  },
+  {
+    "name": "cursor-ignored",
+    "pages": [
+      {
+        "posts": [
+          {
+            "id": "__proto__",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          }
+        ],
+        "nextCursor": null,
+        "total": 999
+      },
+      {
+        "posts": [
+          {
+            "id": "constructor",
+            "createdAt": "2026-11-01T12:00:00Z",
+            "updatedAt": "2026-11-01T12:00:00Z"
+          }
+        ],
+        "nextCursor": "same"
+      }
+    ],
+    "expected": [
+      {
+        "id": "__proto__",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      },
+      {
+        "id": "constructor",
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-01T12:00:00Z"
+      }
+    ]
+  }
+]
